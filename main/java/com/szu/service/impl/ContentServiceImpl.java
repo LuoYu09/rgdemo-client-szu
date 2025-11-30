@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.szu.dto.ListContentsDTO;
 import com.szu.entity.Content;
 import com.szu.entity.PageContents;
+import com.szu.entity.Tag;
 import com.szu.result.PageResult;
 import com.szu.vo.ContentVO;
 import com.szu.mapper.ContentMapper;
@@ -82,5 +83,12 @@ public class ContentServiceImpl implements ContentService {
         }
 
         return new PageResult(result.getTotal(), contents);
+    }
+
+    @Override
+    public List<Tag> listTags() {
+        log.info("查询所有标签");
+
+        return contentMapper.listTags();
     }
 }
