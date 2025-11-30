@@ -1,10 +1,9 @@
-package com.szu.entity;
+package com.szu.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -13,7 +12,7 @@ import java.util.List;
 public class ContentVO {
     private int id;
     private String title;
-    private int authorId;
+    private String authorName;
     private String contentBody;
     private int viewCount;
     private int commentCount;
