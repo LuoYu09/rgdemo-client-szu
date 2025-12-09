@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szu.mapper.UserMapper">
+
+    <insert id="addUser">
+        insert into user (openid, password, nickname, avatar, phone, status, is_deleted, created_at, updated_at, role)
+        values (#{openid}, #{password}, #{nickname}, #{avatar}, #{phone}, #{status}, #{isDeleted}, #{createdAt}, #{updatedAt}, #{role})
+    </insert>
+</mapper>
