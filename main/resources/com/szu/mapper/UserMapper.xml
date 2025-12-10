@@ -5,7 +5,21 @@
 <mapper namespace="com.szu.mapper.UserMapper">
 
     <insert id="addUser">
-        insert into user (openid, password, nickname, avatar, phone, status, is_deleted, created_at, updated_at, role)
-        values (#{openid}, #{password}, #{nickname}, #{avatar}, #{phone}, #{status}, #{isDeleted}, #{createdAt}, #{updatedAt}, #{role})
+        insert into client_user (openid, avatar, name, create_time, update_time)
+        values (#{openid}, #{avatar}, #{name}, #{createTime}, #{updateTime})
     </insert>
+
+    <update id="updateUser">
+        update client_user
+        <set>
+            <if test="avatar != null">
+                avatar = #{avatar},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            update_time = NOW()
+        </set>
+        where openid = #{openid}
+    </update>
 </mapper>

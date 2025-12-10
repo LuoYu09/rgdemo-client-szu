@@ -22,31 +22,16 @@ public class User implements Serializable {
     //微信用户唯一标识
     private String openid;
 
-    //姓名
-    private String username;
-
     //昵称
-    private String nickname;
-
-    //手机号
-    private String phone;
-
-    //状态 0：禁用 1：正常
-    private int status;
-
-    //是否删除 0：未删除 1：已删除
-    private String isDeleted;
+    private String name;
 
     //头像
     private String avatar;
 
     //注册时间
-    private LocalDateTime createAt;
+    private LocalDateTime createTime;
 
     //更新时间
-    private LocalDateTime updateAt;
-
-    //角色
-    private int role;
+    private LocalDateTime updateTime;
 }
 

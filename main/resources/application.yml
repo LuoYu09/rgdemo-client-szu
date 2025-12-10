@@ -30,7 +30,8 @@ szu:
     # 设置jwt签名加密时使用的秘钥
     user-secret-key: szuruangong
     # 设置jwt过期时间
-    user-ttl: 7200000
+    short-ttl: 600000
+    long-ttl:  259200000
     # 设置前端传递过来的令牌名称
     user-token-name: authentication
   wechat:

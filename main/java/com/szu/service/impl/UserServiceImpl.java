@@ -2,6 +2,7 @@ package com.szu.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.szu.dto.UserLoginDTO;
+import com.szu.dto.UserUpdateDTO;
 import com.szu.entity.User;
 import com.szu.exception.LoginFailedException;
 import com.szu.mapper.UserMapper;
@@ -53,18 +54,25 @@ public class UserServiceImpl implements UserService {
             User newUser = new User();
 
             newUser.setOpenid(openid);
-            newUser.setNickname("未命名");
-            newUser.setPhone("未设置");
-            newUser.setStatus(1);
-            newUser.setIsDeleted("0");
-            newUser.setRole(0);
-            newUser.setCreateAt(LocalDateTime.now());
-            newUser.setUpdateAt(LocalDateTime.now());
+            newUser.setAvatar(dto.getAvatar());
+            newUser.setName(dto.getName());
+            newUser.setCreateTime(LocalDateTime.now());
+            newUser.setUpdateTime(LocalDateTime.now());
             userMapper.addUser(newUser);
 
             return newUser;
         }
 
         return user;
+    }
+
+    @Override
+    public User getUserByOpenId(String openid) {
+        return userMapper.selectByOpenId(openid);
+    }
+
+    @Override
+    public void updateUser(UserUpdateDTO dto) {
+        userMapper.updateUser(dto);
     }
 }

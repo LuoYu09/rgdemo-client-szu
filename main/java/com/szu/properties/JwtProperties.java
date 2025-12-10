@@ -12,8 +12,8 @@ public class JwtProperties {
      * 用户端微信用户生成jwt令牌相关配置
      */
     private String userSecretKey;
-    private long userTtl;
+    private long shortTtl;
+    private long longTtl;
     private String userTokenName;
-
 }
 
