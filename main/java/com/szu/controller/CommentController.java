@@ -4,10 +4,7 @@ import com.szu.result.Result;
 import com.szu.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/client/comment")
@@ -18,6 +15,8 @@ public class CommentController {
 
     @GetMapping("/{id}")
     public Result<String> getCommentById(@PathVariable String id) {
+        log.info("根据文章id查询评论：{}", id);
+
         String comment = commentService.getCommentById(id);
 
         return Result.success(comment);

@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.szu.mapper.UserMapper">
 
-    <insert id="addUser">
+    <insert id="addUser" parameterType="com.szu.entity.User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into client_user (openid, avatar, name, create_time, update_time)
         values (#{openid}, #{avatar}, #{name}, #{createTime}, #{updateTime})
     </insert>

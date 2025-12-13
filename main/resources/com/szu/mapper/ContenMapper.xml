@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szu.mapper.ContentMapper">
+    <select id="selectContentById" resultType="com.szu.entity.Content">
+        select * from contents where id = #{id}
+    </select>
+
+    <select id="selectTagsByContentId" resultType="java.lang.String">
+        select tag from tags t left join content_tag c on t.id = c.tag_id where c.content_id = #{id}
+    </select>
+
+    <select id="selectAuthorNameByContentId" resultType="java.lang.String">
+        select name from client_user left join contents on client_user.id = contents.author_id where contents.id = #{id}
+    </select>
+
+    <select id="listContents" resultType="java.lang.Integer">
+        select contents.id from contents
+        <if test="tagIds != null and tagIds.size() > 0">
+            <where>
+                id in (select content_id from content_tag where tag_id in
+                <foreach collection="tagIds" item="tagId" open="(" separator="," close=")">
+                    #{tagId}
+                </foreach>
+                )
+            </where>
+        </if>
+        order by ${sortBy} ${sortOrder}
+    </select>
+
+    <select id="listTags" resultType="com.szu.entity.Tag">
+        select * from tags
+    </select>
+</mapper>
