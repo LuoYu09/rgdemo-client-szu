@@ -3,6 +3,33 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.szu.mapper.ContentMapper">
+
+    <insert id="addRating">
+        insert into ratings (content_id, user_id, rating_value, created_at, updated_at) values (#{contentId}, #{userId}, #{rating}, NOW(), NOW())
+    </insert>
+
+    <update id="addRatingCount">
+        update avg_ratings
+        <set>
+            <if test="rating == 1">
+                one = one + 1
+            </if>
+            <if test="rating == 2">
+                two = two + 1
+            </if>
+            <if test="rating == 3">
+                three = three + 1
+            </if>
+            <if test="rating == 4">
+                four = four + 1
+            </if>
+            <if test="rating == 5">
+                five = five + 1
+            </if>
+        </set>
+        where content_id = #{contentId}
+    </update>
+
     <select id="selectContentById" resultType="com.szu.entity.Content">
         select * from contents where id = #{id}
     </select>
@@ -31,5 +58,13 @@
 
     <select id="listTags" resultType="com.szu.entity.Tag">
         select * from tags
+    </select>
+
+    <select id="getRatingCountByContentId" resultType="com.szu.entity.AvgRating">
+        select * from avg_ratings where content_id = #{contentId}
+    </select>
+
+    <select id="getRating" resultType="java.lang.Integer">
+        select rating_value from ratings where content_id = #{contentId} and user_id = #{userId}
     </select>
 </mapper>

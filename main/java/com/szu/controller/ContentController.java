@@ -1,5 +1,6 @@
 package com.szu.controller;
 
+import com.szu.dto.AddRatingDTO;
 import com.szu.dto.ListContentsDTO;
 import com.szu.entity.Tag;
 import com.szu.result.PageResult;
@@ -37,4 +38,13 @@ public class ContentController {
 
         return Result.success(tags);
     }
+
+    @PutMapping("/rating")
+    public Result addRating(@RequestBody AddRatingDTO dto){
+        contentService.addRating(dto);
+
+        return Result.success();
+    }
+
+    
 }

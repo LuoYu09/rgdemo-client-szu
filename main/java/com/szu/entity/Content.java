@@ -18,10 +18,9 @@ public class Content {
     private int authorId;
     private int viewCount;
     private int commentCount;
-    private double avgRating;
-    private int ratingCount;
     private int status;
     private int isDeleted;
+    private String comments;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

@@ -20,5 +20,6 @@ public class ContentVO {
     private int ratingCount;
     private String createdAt;
     private String coverImage;
+    private Integer rating;
     private List<String> tags;
 }

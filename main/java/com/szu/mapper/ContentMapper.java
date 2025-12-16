@@ -1,6 +1,8 @@
 package com.szu.mapper;
 
 import com.github.pagehelper.Page;
+import com.szu.dto.AddRatingDTO;
+import com.szu.entity.AvgRating;
 import com.szu.entity.Content;
 import com.szu.entity.PageContents;
 import com.szu.entity.Tag;
@@ -19,4 +21,12 @@ public interface ContentMapper {
     Page<Integer> listContents(PageContents pageDto);
 
     List<Tag> listTags();
+
+    void addRating(AddRatingDTO dto);
+
+    void addRatingCount(AddRatingDTO dto);
+
+    AvgRating getRatingCountByContentId(Integer id);
+
+    Integer getRating(Integer contentId, Long userId);
 }

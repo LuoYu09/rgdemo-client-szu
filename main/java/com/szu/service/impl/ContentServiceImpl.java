@@ -2,7 +2,10 @@ package com.szu.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.szu.context.BaseContext;
+import com.szu.dto.AddRatingDTO;
 import com.szu.dto.ListContentsDTO;
+import com.szu.entity.AvgRating;
 import com.szu.entity.Content;
 import com.szu.entity.PageContents;
 import com.szu.entity.Tag;
@@ -33,10 +36,28 @@ public class ContentServiceImpl implements ContentService {
         List<String> tags = contentMapper.selectTagsByContentId(id);
         String name = contentMapper.selectAuthorNameByContentId(id);
 
+        AvgRating avgRating = contentMapper.getRatingCountByContentId(id);
+        int totalRatings = avgRating.getFive() + avgRating.getFour() + avgRating.getThree() + avgRating.getTwo() + avgRating.getOne();
+
+        Integer rating = contentMapper.getRating(id, BaseContext.getCurrentId());
+
         ContentVO contentVO = new ContentVO();
         BeanUtils.copyProperties(content, contentVO);
         contentVO.setTags(tags);
         contentVO.setAuthorName(name);
+        if (rating != null) {
+            contentVO.setRating(rating);
+        }else {
+            contentVO.setRating(0);
+        }
+        contentVO.setRatingCount(totalRatings);
+        if(totalRatings == 0){
+            contentVO.setAvgRating(0.0);
+        } else {
+            double average = (5.0 * avgRating.getFive() + 4.0 * avgRating.getFour() + 3.0 * avgRating.getThree()
+                    + 2.0 * avgRating.getTwo() + 1.0 * avgRating.getOne()) / totalRatings;
+            contentVO.setAvgRating(Math.round(average * 10.0) / 10.0);
+        }
         contentVO.setCreatedAt(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(content.getCreatedAt()));
 
         return contentVO;
@@ -90,5 +111,13 @@ public class ContentServiceImpl implements ContentService {
         log.info("查询所有标签");
 
         return contentMapper.listTags();
+    }
+
+    @Override
+    public void addRating(AddRatingDTO dto) {
+        log.info("添加文章评分：{}", dto);
+
+        contentMapper.addRating(dto);
+        contentMapper.addRatingCount(dto);
     }
 }

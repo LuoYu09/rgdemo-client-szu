@@ -1,5 +1,6 @@
 package com.szu.service;
 
+import com.szu.dto.AddRatingDTO;
 import com.szu.dto.ListContentsDTO;
 import com.szu.entity.Tag;
 import com.szu.result.PageResult;
@@ -13,4 +14,7 @@ public interface ContentService{
     PageResult listContents(ListContentsDTO dto);
 
     List<Tag> listTags();
+
+    void addRating(AddRatingDTO dto);
+
 }
