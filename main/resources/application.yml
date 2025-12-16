@@ -2,11 +2,17 @@ server:
   port: 8081
 
 spring:
+  profiles:
+    active: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://172.29.50.141:3306/proj_db?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
     username: appuser
     password: RuanGongDemo!123
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 
 mybatis:
   #mapper配置文件
@@ -37,3 +43,8 @@ szu:
   wechat:
     appid: wx42f0f7a77c876fb3
     secret: b4e40efd78f6dbe713c8c00613c3d756
+  alioss:
+    endpoint: ${szu.alioss.endpoint}
+    access-key-id: ${szu.alioss.access-key-id}
+    access-key-secret: ${szu.alioss.access-key-secret}
+    bucket-name: ${szu.alioss.bucket-name}
