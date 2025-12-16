@@ -28,6 +28,15 @@ public class User implements Serializable {
     //头像
     private String avatar;
 
+    //个性签名
+    private String signature;
+
+    //性别
+    private String sex;
+
+    //地区
+    private String area;
+
     //注册时间
     private LocalDateTime createTime;
 

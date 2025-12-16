@@ -57,6 +57,9 @@ public class UserServiceImpl implements UserService {
             newUser.setOpenid(openid);
             newUser.setAvatar(dto.getAvatar());
             newUser.setName(dto.getName());
+            newUser.setSex("未设置");
+            newUser.setArea("未设置");
+            newUser.setSignature("这个人很懒，什么都没留下~");
             newUser.setCreateTime(LocalDateTime.now());
             newUser.setUpdateTime(LocalDateTime.now());
             userMapper.addUser(newUser);
