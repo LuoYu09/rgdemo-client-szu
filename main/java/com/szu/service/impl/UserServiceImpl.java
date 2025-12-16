@@ -11,7 +11,6 @@ import com.szu.service.UserService;
 import com.szu.utils.HttpClientUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -62,10 +61,18 @@ public class UserServiceImpl implements UserService {
             newUser.setSignature("这个人很懒，什么都没留下~");
             newUser.setCreateTime(LocalDateTime.now());
             newUser.setUpdateTime(LocalDateTime.now());
+            newUser.setLastLoginTime(LocalDateTime.now());
             userMapper.addUser(newUser);
 
             return newUser;
         }
+
+        UserUpdateDTO dto1 = new UserUpdateDTO();
+        dto1.setLastLoginTime(LocalDateTime.now());
+        dto1.setOpenid(user.getOpenid());
+        userMapper.updateUser(dto1);
+
+        user.setLastLoginTime(dto1.getLastLoginTime());
 
         return user;
     }

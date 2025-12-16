@@ -42,5 +42,8 @@ public class User implements Serializable {
 
     //更新时间
     private LocalDateTime updateTime;
+
+    //最后登录时间
+    private LocalDateTime lastLoginTime;
 }
 
