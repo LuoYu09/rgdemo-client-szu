@@ -26,8 +26,4 @@ public class ListContentsDTO {
      * 0表示降序，1表示升序，默认为0
      */
     private Integer sortOrder;
-    /**
-     * 用于筛选的标签id列表
-     */
-    private List<Integer> tagIds;
 }

@@ -1,9 +1,12 @@
 package com.szu.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.szu.context.BaseContext;
 import com.szu.dto.AddRatingDTO;
+import com.szu.dto.ContentAddDTO;
 import com.szu.dto.ListContentsDTO;
 import com.szu.entity.AvgRating;
 import com.szu.entity.Content;
@@ -33,7 +36,6 @@ public class ContentServiceImpl implements ContentService {
         log.info("根据id查询文章：{}", id);
 
         Content content = contentMapper.selectContentById(id);
-        List<String> tags = contentMapper.selectTagsByContentId(id);
         String name = contentMapper.selectAuthorNameByContentId(id);
 
         AvgRating avgRating = contentMapper.getRatingCountByContentId(id);
@@ -43,7 +45,6 @@ public class ContentServiceImpl implements ContentService {
 
         ContentVO contentVO = new ContentVO();
         BeanUtils.copyProperties(content, contentVO);
-        contentVO.setTags(tags);
         contentVO.setAuthorName(name);
         if (rating != null) {
             contentVO.setRating(rating);
@@ -59,6 +60,15 @@ public class ContentServiceImpl implements ContentService {
             contentVO.setAvgRating(Math.round(average * 10.0) / 10.0);
         }
         contentVO.setCreatedAt(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(content.getCreatedAt()));
+
+        if (content.getLikes() != null) {
+            List<Integer> likesList = JSON.parseArray(content.getLikes(), Integer.class);
+            contentVO.setLikeCount(likesList.size());
+            contentVO.setLike(likesList.contains(BaseContext.getCurrentId().intValue()) ? 1 : 0);
+        }else {
+            contentVO.setLikeCount(0);
+            contentVO.setLike(0);
+        }
 
         return contentVO;
     }
@@ -107,17 +117,49 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public List<Tag> listTags() {
-        log.info("查询所有标签");
-
-        return contentMapper.listTags();
-    }
-
-    @Override
     public void addRating(AddRatingDTO dto) {
         log.info("添加文章评分：{}", dto);
 
         contentMapper.addRating(dto);
         contentMapper.addRatingCount(dto);
+    }
+
+    @Override
+    public void addContent(ContentAddDTO dto) {
+        log.info("添加文章：{}", dto);
+
+        Content content = new Content();
+        BeanUtils.copyProperties(dto, content);
+        content.setAuthorId(BaseContext.getCurrentId().intValue());
+        content.setViewCount(0);
+        content.setCommentCount(0);
+        content.setStatus(1);
+        content.setIsDeleted(0);
+        content.setLikes("[]");
+        content.setComments("[]");
+        content.setImages(JSONObject.toJSONString(dto.getImages()));
+        content.setTags(JSONObject.toJSONString(dto.getTags()));
+
+        contentMapper.addContent(content);
+        contentMapper.addAvgRating(content.getId());
+    }
+
+    @Override
+    public void likeContent(Integer contentId) {
+        log.info("点赞文章：{}", contentId);
+
+        Content content = contentMapper.selectContentById(contentId);
+        String likes = content.getLikes();
+        List<Integer> likesList = JSON.parseArray(likes, Integer.class);
+        Integer userId = BaseContext.getCurrentId().intValue();
+
+        if (likesList.contains(userId)) {
+            likesList.remove(userId);
+        } else {
+            likesList.add(userId);
+        }
+
+        content.setLikes(JSONObject.toJSONString(likesList));
+        contentMapper.likeContent(content);
     }
 }

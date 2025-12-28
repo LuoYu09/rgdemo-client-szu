@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
 
 spring:
   profiles:
@@ -14,7 +14,7 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
 
-mybatis:
+mybatis-plus:
   #mapper配置文件
   mapper-locations: classpath*:com/szu/mapper/*.xml
   type-aliases-package: com.szu.entity
@@ -39,7 +39,7 @@ szu:
     short-ttl: 600000
     long-ttl:  259200000
     # 设置前端传递过来的令牌名称
-    user-token-name: authentication
+    user-token-name: Authorization
   wechat:
     appid: wx42f0f7a77c876fb3
     secret: b4e40efd78f6dbe713c8c00613c3d756

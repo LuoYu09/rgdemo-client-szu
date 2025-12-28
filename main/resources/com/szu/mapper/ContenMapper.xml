@@ -8,6 +8,16 @@
         insert into ratings (content_id, user_id, rating_value, created_at, updated_at) values (#{contentId}, #{userId}, #{rating}, NOW(), NOW())
     </insert>
 
+    <insert id="addContent" parameterType="com.szu.entity.Content" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into contents (title, cover_image, content_body, author_id, view_count, comment_count, status, is_deleted, created_at, updated_at, comments, tags, likes, images)
+        values (#{title}, #{coverImage}, #{contentBody}, #{authorId}, #{viewCount}, #{commentCount}, #{status}, #{isDeleted}, NOW(), NOW(), #{comments}, #{tags}, #{likes}, #{images})
+    </insert>
+
+    <insert id="addAvgRating">
+        insert into avg_ratings (content_id, one, two, three, four, five, create_time, update_time) values (#{id}, 0, 0, 0, 0, 0, now(), now())
+    </insert>
+
+
     <update id="addRatingCount">
         update avg_ratings
         <set>
@@ -30,12 +40,20 @@
         where content_id = #{contentId}
     </update>
 
+    <update id="likeContent">
+        update contents
+        <set>
+            likes = #{likes}
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="update">
+        update contents set comments = #{comments}, comment_count = #{commentCount}, updated_at = NOW() where id = #{id}
+    </update>
+
     <select id="selectContentById" resultType="com.szu.entity.Content">
         select * from contents where id = #{id}
-    </select>
-
-    <select id="selectTagsByContentId" resultType="java.lang.String">
-        select tag from tags t left join content_tag c on t.id = c.tag_id where c.content_id = #{id}
     </select>
 
     <select id="selectAuthorNameByContentId" resultType="java.lang.String">
@@ -43,21 +61,7 @@
     </select>
 
     <select id="listContents" resultType="java.lang.Integer">
-        select contents.id from contents
-        <if test="tagIds != null and tagIds.size() > 0">
-            <where>
-                id in (select content_id from content_tag where tag_id in
-                <foreach collection="tagIds" item="tagId" open="(" separator="," close=")">
-                    #{tagId}
-                </foreach>
-                )
-            </where>
-        </if>
-        order by ${sortBy} ${sortOrder}
-    </select>
-
-    <select id="listTags" resultType="com.szu.entity.Tag">
-        select * from tags
+        select contents.id from contents order by ${sortBy} ${sortOrder}
     </select>
 
     <select id="getRatingCountByContentId" resultType="com.szu.entity.AvgRating">

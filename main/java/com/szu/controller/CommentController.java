@@ -1,5 +1,6 @@
 package com.szu.controller;
 
+import com.szu.dto.CommentDTO;
 import com.szu.result.Result;
 import com.szu.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,5 +21,14 @@ public class CommentController {
         String comment = commentService.getCommentById(id);
 
         return Result.success(comment);
+    }
+
+    @PostMapping()
+    public Result addComment(@RequestBody CommentDTO dto) {
+        log.info("添加评论，文章id：{}，评论内容：{}", dto.getContentId(), dto.getContent());
+
+        commentService.addComment(dto);
+
+        return Result.success();
     }
 }

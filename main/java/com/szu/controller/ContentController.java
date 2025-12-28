@@ -1,6 +1,7 @@
 package com.szu.controller;
 
 import com.szu.dto.AddRatingDTO;
+import com.szu.dto.ContentAddDTO;
 import com.szu.dto.ListContentsDTO;
 import com.szu.entity.Tag;
 import com.szu.result.PageResult;
@@ -32,13 +33,6 @@ public class ContentController {
         return Result.success(result);
     }
 
-    @GetMapping("/tags")
-    public Result<List<Tag>> listTags(){
-        List<Tag> tags = contentService.listTags();
-
-        return Result.success(tags);
-    }
-
     @PutMapping("/rating")
     public Result addRating(@RequestBody AddRatingDTO dto){
         contentService.addRating(dto);
@@ -46,5 +40,18 @@ public class ContentController {
         return Result.success();
     }
 
-    
+    @PostMapping("/add")
+    public Result addContent(@RequestBody ContentAddDTO dto){
+        contentService.addContent(dto);
+
+        return Result.success();
+    }
+
+    @GetMapping("/like/{contentId}")
+    public Result likeContent(@PathVariable Integer contentId){
+        contentService.likeContent(contentId);
+
+        return Result.success();
+    }
+
 }

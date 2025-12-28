@@ -1,6 +1,7 @@
 package com.szu.controller;
 
 import com.szu.constant.JwtClaimsConstant;
+import com.szu.context.BaseContext;
 import com.szu.dto.UserLoginDTO;
 import com.szu.dto.UserUpdateDTO;
 import com.szu.entity.User;
@@ -41,7 +42,8 @@ public class UserController {
         User user = userService.login(dto);
 
         Map<String,Object> map = new HashMap<>();
-        map.put(JwtClaimsConstant.USER_ID,user.getOpenid());
+        map.put(JwtClaimsConstant.USER_ID,user.getId());
+        //System.out.println(user.getId());
         map.put("time", "short");
 
         String shortToken = JwtUtil.createJWT(jwtProperties.getUserSecretKey(),jwtProperties.getShortTtl(),map);
@@ -60,7 +62,7 @@ public class UserController {
         log.info("获取用户token：{}",openid);
 
         Map<String,Object> map = new HashMap<>();
-        map.put(JwtClaimsConstant.USER_ID,openid);
+        map.put(JwtClaimsConstant.USER_ID, BaseContext.getCurrentId());
         map.put("time", "short");
 
         String shortToken = JwtUtil.createJWT(jwtProperties.getUserSecretKey(),jwtProperties.getShortTtl(),map);

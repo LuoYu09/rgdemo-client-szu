@@ -17,6 +17,4 @@ public class PageContents {
     private String sortBy;
 
     private String sortOrder;
-
-    private List<Integer> tagIds;
 }

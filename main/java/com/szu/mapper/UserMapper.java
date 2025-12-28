@@ -10,6 +10,9 @@ public interface UserMapper {
     @Select("SELECT * FROM client_user WHERE openid = #{openid}")
     User selectByOpenId(String openid);
 
+    @Select("select * from client_user where id = #{id}")
+    User selectById(Integer id);
+
     void addUser(User newUser);
 
     void updateUser(UserUpdateDTO dto);

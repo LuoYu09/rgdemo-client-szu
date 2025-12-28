@@ -1,5 +1,6 @@
 package com.szu.mapper;
 
+import com.szu.dto.CommentDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -7,4 +8,6 @@ import org.apache.ibatis.annotations.Select;
 public interface CommentMapper {
     @Select("select comments from contents where id = #{id}")
     String getCommentById(String id);
+
+
 }

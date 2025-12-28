@@ -14,13 +14,9 @@ import java.util.List;
 public interface ContentMapper {
     Content selectContentById(Integer id);
 
-    List<String> selectTagsByContentId(Integer id);
-
     String selectAuthorNameByContentId(Integer id);
 
     Page<Integer> listContents(PageContents pageDto);
-
-    List<Tag> listTags();
 
     void addRating(AddRatingDTO dto);
 
@@ -29,4 +25,12 @@ public interface ContentMapper {
     AvgRating getRatingCountByContentId(Integer id);
 
     Integer getRating(Integer contentId, Long userId);
+
+    void addContent(Content content);
+
+    void likeContent(Content content);
+
+    void addAvgRating(Integer id);
+
+    int update(Content content);
 }
